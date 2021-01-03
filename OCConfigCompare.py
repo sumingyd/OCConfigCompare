@@ -11,7 +11,7 @@ except NameError:  # Python 3
 class OCCC:
     def __init__(self):
         self.d = downloader.Downloader()
-        self.u = utils.Utils("OC Config Compare")
+        self.u = utils.Utils("OC配置比较器（宿命汉化）")
         if 2/3 == 0: self.dict_types = (dict,plistlib._InternalDict)
         else: self.dict_types = (dict)
         self.current_config = None
@@ -71,23 +71,23 @@ class OCCC:
         self.sample_config,self.sample_plist = s
         self.u.head()
         print("")
-        print("Checking for values missing from User plist:")
+        print("检查用户plist中缺少的值:")
         print("")
         changes = self.compare_value(self.sample_plist,self.current_plist,os.path.basename(self.current_config))
         if len(changes):
             print("\n".join(changes))
         else:
-            print(" - Nothing missing from User config!")
+            print(" - 用户配置中没有丢失任何内容！")
         print("")
-        print("Checking for values missing from Sample:")
+        print("检查示例plist中是否缺少值：")
         print("")
         changes = self.compare_value(self.current_plist,self.sample_plist,os.path.basename(self.sample_config))
         if len(changes):
             print("\n".join(changes))
         else:
-            print(" - Nothing missing from Sample config!")
+            print(" - 示例配置中没有缺少任何内容！")
         print("")
-        self.u.grab("Press [enter] to return...")
+        self.u.grab("按[enter]键返回...")
 
     def compare_value(self, compare_from, compare_to, path=""):
         change_list = []
@@ -125,25 +125,25 @@ class OCCC:
     def get_latest(self,wait=True):
         self.u.head()
         print("")
-        print("Gathering latest Sample.plist from:")
+        print("正在收集最新的 sample.plist：")
         print(self.sample_url)
         print("")
         p = None
         dl_config = self.d.stream_to_file(self.sample_url,self.sample_path)
         if not dl_config:
-            print("\nFailed to download!\n")
-            if wait: self.u.grab("Press [enter] to return...")
+            print("\n下载失败！\n")
+            if wait: self.u.grab("按[enter]键返回...")
             return None
-        print("Loading...")
+        print("等待...")
         try:
             with open(dl_config,"rb") as f:
                 p = plist.load(f)
         except Exception as e:
-            print("\nPlist failed to load:  {}\n".format(e))
-            if wait: self.u.grab("Press [enter] to return...")
+            print("\nPlist 加载失败:  {}\n".format(e))
+            if wait: self.u.grab("按[enter]键返回...")
             return None
         print("")
-        if wait: self.u.grab("Press [enter] to return...")
+        if wait: self.u.grab("按[enter]键返回...")
         return (dl_config,p)
 
     def get_plist(self,plist_name="config.plist",plist_path=None):
@@ -153,10 +153,10 @@ class OCCC:
             else:
                 self.u.head()
                 print("")
-                print("M. Return to Menu")
-                print("Q. Quit")
+                print("M. 返回菜单")
+                print("Q. 退出")
                 print("")
-                m = self.u.grab("Please drag and drop the {} file:  ".format(plist_name))
+                m = self.u.grab("请拖放 {} 文件:  ".format(plist_name))
                 if m.lower() == "m":
                     return None
                 elif m.lower() == "q":
@@ -166,7 +166,7 @@ class OCCC:
             if not pl:
                 self.u.head()
                 print("")
-                self.u.grab("That path does not exist!",timeout=5)
+                self.u.grab("路径不存在！",timeout=5)
                 continue
             try:
                 with open(pl,"rb") as f:
@@ -174,31 +174,31 @@ class OCCC:
             except Exception as e:
                 self.u.head()
                 print("")
-                self.u.grab("Plist ({}) failed to load:  {}".format(os.path.basename(pl),e),timeout=5)
+                self.u.grab("Plist ({}) 加载失败:  {}".format(os.path.basename(pl),e),timeout=5)
                 continue
             return (pl,p) # Return the path and plist contents
 
     def custom_hide_prefix(self):
         self.u.head()
         print("")
-        print("Hide Keys Prefix: {}".format(self.settings.get("hide_with_prefix","#")))
+        print("隐藏快捷键前缀: {}".format(self.settings.get("hide_with_prefix","#")))
         print("")
-        pref = self.u.grab("Please enter the custom hide key prefix:  ")
+        pref = self.u.grab("请输入自定义快捷键前缀： ")
         return pref if len(pref) else None
 
     def hide_key_prefix(self):
         self.u.head()
         print("")
-        print("Hide Keys Prefix: {}".format(self.settings.get("hide_with_prefix","#")))
+        print("隐藏快捷键前缀: {}".format(self.settings.get("hide_with_prefix","#")))
         print("")
-        print("1. Hide Keys Starting With #")
-        print("2. Input Custom Prefix")
-        print("3. Show All Keys")
+        print("1. 隐藏快捷键 #")
+        print("2. 输入自定义快捷键")
+        print("3. 显示所有快捷键")
         print("")
-        print("M. Main Menu")
-        print("Q. Quit")
+        print("M. 返回菜单")
+        print("Q. 退出")
         print("")
-        menu = self.u.grab("Please select an option:  ")
+        menu = self.u.grab("请选择一个选项： ")
         if menu.lower() == "m": return
         elif menu.lower() == "q": self.u.custom_quit()
         elif menu == "1":
@@ -219,19 +219,19 @@ class OCCC:
     def main(self):
         self.u.head()
         print("")
-        print("Current Config:   {}".format(self.current_config))
-        print("OC Sample Config: {}".format(self.sample_config))
-        print("Hide Keys Prefix: {}".format(self.settings.get("hide_with_prefix","#")))
+        print("当前配置:   {}".format(self.current_config))
+        print("OC 示例配置: {}".format(self.sample_config))
+        print("隐藏快捷键前缀: {}".format(self.settings.get("hide_with_prefix","#")))
         print("")
-        print("1. Change Hide Keys Prefix")
-        print("2. Get Latest Sample.plist")
-        print("3. Select Custom Sample.plist")
-        print("4. Select User Config.plist")
-        print("5. Compare (will use latest Sample.plist if none selected)")
+        print("1. 更改快捷键前缀")
+        print("2. 获取最新 Sample.plist")
+        print("3. 选择自定义 Sample.plist")
+        print("4. 选择用户 Config.plist")
+        print("5. 比较（将使用最新的Sample.plist如果未选择）")
         print("")
-        print("Q. Quit")
+        print("Q. 退出")
         print("")
-        m = self.u.grab("Please select an option:  ").lower()
+        m = self.u.grab("请选择一个选项:  ").lower()
         if m == "q":
             self.u.custom_quit()
         elif m == "1":
@@ -241,11 +241,11 @@ class OCCC:
             if p is not None:
                 self.sample_config,self.sample_plist = p
         elif m == "3":
-            p = self.get_plist("OC Sample.plist")
+            p = self.get_plist("OC示例 Sample.plist")
             if p is not None:
                 self.sample_config,self.sample_plist = p
         elif m == "4":
-            p = self.get_plist("user config.plist")
+            p = self.get_plist("用户 config.plist")
             if p is not None:
                 self.current_config,self.current_plist = p
         elif m == "5":
@@ -260,4 +260,4 @@ if __name__ == '__main__':
             o.main()
         except Exception as e:
             print("\nError: {}\n".format(e))
-            input("Press [enter] to continue...")
+            input("按[enter]键返回...")
