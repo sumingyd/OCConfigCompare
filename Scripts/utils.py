@@ -238,18 +238,22 @@ class Utils:
     def custom_quit(self):
         self.head()
         print("by CorpNewt\n")
-        print("Thanks for testing it out, for bugs/comments/complaints")
-        print("send me a message on Reddit, or check out my GitHub:\n")
+        print("感谢您的测试、错误/评论/投诉")
+        print("在Reddit上向我发送消息，或查看我的GitHub：\n")
         print("www.reddit.com/u/corpnewt")
         print("www.github.com/corpnewt\n")
+        print("================================")
+        print("本程序由：宿命 汉化")
+        print("欢迎加入len's的qq交流群：624920460")
+        print("================================\n")
         # Get the time and wish them a good morning, afternoon, evening, and night
         hr = datetime.datetime.now().time().hour
         if hr > 3 and hr < 12:
-            print("Have a nice morning!\n\n")
+            print("早上好！\n\n")
         elif hr >= 12 and hr < 17:
-            print("Have a nice afternoon!\n\n")
+            print("下午好！\n\n")
         elif hr >= 17 and hr < 21:
-            print("Have a nice evening!\n\n")
+            print("傍晚好!\n\n")
         else:
-            print("Have a nice night!\n\n")
+            print("晚上好!\n\n")
         exit(0)
